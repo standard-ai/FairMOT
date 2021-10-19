@@ -1,8 +1,8 @@
 {
-    "root":"/home/zyf/dataset",
+    "root":"/Users/sean/standard/data/reid-tracking-fix/MOT-benchmark/MOT20",
     "train":
     {
-        "mot20":"./data/mot20.train"
+        "mot20":"./train"
     },
     "test_emb":
     {
@@ -10,6 +10,6 @@
     },
     "test":
     {
-        "mot20":"./data/mot20.train"
+        "mot20":"./train"
     }
 }

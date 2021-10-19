@@ -19,6 +19,12 @@ from utils.post_process import ctdet_post_process
 from .base_trainer import BaseTrainer
 
 
+class PrototypicalMotLoss(torch.nn.Module):
+    def __init__(self, opt):
+        super().__init__()
+        raise NotImplementedError
+
+
 class MotLoss(torch.nn.Module):
     def __init__(self, opt):
         super(MotLoss, self).__init__()
@@ -41,6 +47,8 @@ class MotLoss(torch.nn.Module):
         self.emb_scale = math.sqrt(2) * math.log(self.nID - 1)
         self.s_det = nn.Parameter(-1.85 * torch.ones(1))
         self.s_id = nn.Parameter(-1.05 * torch.ones(1))
+        # TODO: add attribute from `opt` to parameterize weigthing based on occlusion
+        # raise NotImplementedError("add arg for training with ID downweighted by occlusion percentage")
 
     def forward(self, outputs, batch):
         opt = self.opt
@@ -75,6 +83,10 @@ class MotLoss(torch.nn.Module):
                                                       alpha=0.25, gamma=2.0, reduction="sum"
                                                       ) / id_output.size(0)
                 else:
+                    # import pdb; pdb.set_trace()
+                    # print("add arg for training with ID downweighted by occlusion percentage")
+                    # print(id_output.shape)
+                    # print(id_target.shape)
                     id_loss += self.IDLoss(id_output, id_target)
 
         det_loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss

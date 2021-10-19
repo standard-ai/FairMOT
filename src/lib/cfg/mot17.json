@@ -1,8 +1,9 @@
 {
-    "root":"/home/zyf/dataset",
+    "root":"/app/data/MOT-benchmark/MOT17/train",
+    "labels_root":"/app/data/experiments/fairmot_base/labels_with_ids/train/",
     "train":
     {
-        "mot17":"./data/mot17.train"
+        "mot17":"./data/mot17_seq_as_base_path.train"
     },
     "test_emb":
     {
