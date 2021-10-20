@@ -25,7 +25,7 @@ class opts(object):
                                   'in the exp dir if load_model is empty.') 
 
     # system
-    self.parser.add_argument('--gpus', default='2, 3',
+    self.parser.add_argument('--gpus', default='0, 1, 2, 3',
                              help='-1 for CPU, use comma for multiple gpus')
     self.parser.add_argument('--num_workers', type=int, default=8,
                              help='dataloader threads. 0 for single-thread.')
@@ -86,6 +86,7 @@ class opts(object):
     self.parser.add_argument('--trainval', action='store_true',
                              help='include validation in training and '
                                   'test on test set')
+    # raise NotImplementedError("Add arg for freezing all layers except reid head")
 
     # test
     self.parser.add_argument('--K', type=int, default=500,
@@ -158,6 +159,7 @@ class opts(object):
                              help='category specific bounding box size.')
     self.parser.add_argument('--not_reg_offset', action='store_true',
                              help='not regress local offset.')
+    # raise NotImplementedError("add arg for training with ID downweighted by occlusion percentage")
 
   def parse(self, args=''):
     if args == '':

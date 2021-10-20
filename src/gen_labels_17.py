@@ -1,22 +1,25 @@
 import os.path as osp
 import os
 import numpy as np
+from tqdm import tqdm
 
 
 def mkdirs(d):
+    print(f"creating directory at {d}")
     if not osp.exists(d):
         os.makedirs(d)
 
 
-# TODO: change these paths
-seq_root = '/data/yfzhang/MOT/JDE/MOT20/images/train'
-label_root = '/data/yfzhang/MOT/JDE/MOT20/labels_with_ids/train'
+# seq_root = '/data/yfzhang/MOT/JDE/MOT16/images/train'
+seq_root = "/app/data/MOT-benchmark/MOT17/train"
+label_root = '/app/data/experiments/fairmot_base/labels_with_ids/train'
 mkdirs(label_root)
 seqs = [s for s in os.listdir(seq_root)]
 
 tid_curr = 0
 tid_last = -1
-for seq in seqs:
+for i, seq in enumerate(seqs):
+    print(f"Processing {seq} {i + 1} of {len(seqs)}")
     seq_info = open(osp.join(seq_root, seq, 'seqinfo.ini')).read()
     seq_width = int(seq_info[seq_info.find('imWidth=') + 8:seq_info.find('\nimHeight')])
     seq_height = int(seq_info[seq_info.find('imHeight=') + 9:seq_info.find('\nimExt')])
@@ -27,7 +30,7 @@ for seq in seqs:
     seq_label_root = osp.join(label_root, seq, 'img1')
     mkdirs(seq_label_root)
 
-    for fid, tid, x, y, w, h, mark, label, _ in gt:
+    for fid, tid, x, y, w, h, mark, label, _ in tqdm(gt):
         if mark == 0 or not label == 1:
             continue
         fid = int(fid)

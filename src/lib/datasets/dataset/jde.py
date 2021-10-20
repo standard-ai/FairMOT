@@ -356,7 +356,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
     std = None
     num_classes = 1
 
-    def __init__(self, opt, root, paths, img_size=(1088, 608), augment=False, transforms=None):
+    def __init__(self, opt, root, labels_root, paths, img_size=(1088, 608), augment=False, transforms=None):
         self.opt = opt
         dataset_names = paths.keys()
         self.img_files = OrderedDict()
@@ -372,9 +372,8 @@ class JointDataset(LoadImagesAndLabels):  # for training
                 self.img_files[ds] = list(filter(lambda x: len(x) > 0, self.img_files[ds]))
 
             self.label_files[ds] = [
-                x.replace('images', 'labels_with_ids').replace('.png', '.txt').replace('.jpg', '.txt')
+                x.replace(root, labels_root).replace('.png', '.txt').replace('.jpg', '.txt')
                 for x in self.img_files[ds]]
-
         for ds, label_paths in self.label_files.items():
             max_index = -1
             for lp in label_paths:
